@@ -23,8 +23,6 @@ def splitDataset(dataset, splitRatio):
 
 
 def separateByClass(dataset):
-    # Here we limit our classes to 0 and 1
-    # You need to generalize this for arbitrary number of classes
     ones = dataset[np.where(dataset[:, -1] == 1), :]
     zeros = dataset[np.where(dataset[:, -1] == 0), :]
 
@@ -39,8 +37,6 @@ def separateByClass(dataset):
 
 def summarize(dataset):
     # Calculate means and standart deviations with one degree of freedom for each attribute
-    # We do it by column which is axis 1
-    # Also we remove last elements (guess why?)
     means = dataset[0].mean(axis=1)[0][:-1]
     stds = dataset[0].std(axis=1, ddof=1)[0][:-1]
     p_c = dataset[1]

@@ -61,19 +61,12 @@ def compare_k(data_x, data_y, test_x, test_y, kmin=1, kmax=50, kstep=4):
 
     print('Evaluating distancies started')
 
-    distancies = calc_all_distances(data_x, test_x)
-    miss = []
+    distances = calc_all_distances(data_x, test_x)
     results = []
     for j in range(steps):
-        yk = predict(distancies, data_y, k[j])
+        yk = predict(distances, data_y, k[j])
         features[j] = accuracy(yk, test_y)
         results.append(yk)
-        cond = yk != test_y
-        miss.append({
-            'k': k[j],
-            'acc': features[j],
-            'x': test_x[cond]}
-        )
 
         print('k={0}, accuracy = {1}%'.format(k[j], features[j]))
 
@@ -88,5 +81,6 @@ def main():
     x_trn, y_trn, x_tst, y_tst = splitDataset(X, Y)
     features = compare_k(x_trn, y_trn, x_tst, y_tst)
     print(features)
+
 
 main()

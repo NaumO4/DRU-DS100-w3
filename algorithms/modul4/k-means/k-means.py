@@ -31,15 +31,19 @@ def creates_new_centroids(points, nearest, centroids):
     return np.array([points[nearest == k].mean(axis=0) for k in range(centroids.shape[0])])
 
 
-def k_means(points, k, num_iterations=100):
-
+def k_means(points, k, num_iterations=100, e=0.00001):
     # Initialize centroids
     centroids = getRandomCentroids(points, k)
 
     # Run iterative process
     for i in range(num_iterations):
         nearest = nearest_centroid(points, centroids)
-        centroids = creates_new_centroids(points, nearest, centroids)
+        new_centroids = creates_new_centroids(points, nearest, centroids)
+        # checks whether the displacement of the point is less epsilon
+        dif = abs(new_centroids - centroids)
+        centroids = new_centroids
+        if len(dif[dif > e]) == 0:
+            break
 
     return centroids
 
