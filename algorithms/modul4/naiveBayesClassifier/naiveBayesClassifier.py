@@ -23,16 +23,19 @@ def splitDataset(dataset, splitRatio):
 
 
 def separateByClass(dataset):
-    ones = dataset[np.where(dataset[:, -1] == 1), :]
-    zeros = dataset[np.where(dataset[:, -1] == 0), :]
+    # create a set which contains all classes
+    classes = set()
+    for i in range(dataset.shape[0]):
+        classes.add(dataset[i][-1])
 
-    p_ones_prob = ones.shape[1] / dataset.shape[0]
-    p_zeros_prob = zeros.shape[1] / dataset.shape[0]
+    # create dict which contains class as key and value as dataset of each class and probability of class
+    dataset_by_class = {}
+    while len(classes) != 0:
+        cur_class = classes.pop()
+        class_dataset = dataset[np.where(dataset[:, -1] == cur_class), :]
+        dataset_by_class[cur_class] = (class_dataset, class_dataset.shape[1] / dataset.shape[0])
 
-    return {
-        1: (ones, p_ones_prob),
-        0: (zeros, p_zeros_prob)
-    }
+    return dataset_by_class
 
 
 def summarize(dataset):
@@ -41,7 +44,6 @@ def summarize(dataset):
     stds = dataset[0].std(axis=1, ddof=1)[0][:-1]
     p_c = dataset[1]
 
-    # Think what we do here?
     return means, stds, p_c
 
 
