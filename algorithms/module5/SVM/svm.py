@@ -193,4 +193,4 @@ class Kernel(object):
 
     @staticmethod
     def gaussian(sigma):
-        return lambda x, y: np.exp(-1 * (np.linalg.norm(x -y) / (2 * sigma ** 2)))
+        return lambda x, y: np.exp(-1 * (np.linalg.norm(x - y) ** 2 / (2 * sigma ** 2)))
